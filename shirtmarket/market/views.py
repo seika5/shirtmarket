@@ -1,5 +1,4 @@
 from django.shortcuts import render
-<<<<<<< HEAD
 
 posts = [
 	{
@@ -24,12 +23,3 @@ def home(request):
 
 def about(request):
 	return render(request, 'about.html')
-=======
-from django.http import HttpResponse
-
-def home(request):
-	return HttpResponse('<h1>Blog Home</h1>')
-
-def about(request):	
-	return HttpResponse('<h1>Blog About</h1>')
->>>>>>> parent of 2eba030 (Revert "initial commit")
