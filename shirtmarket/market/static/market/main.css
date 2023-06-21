@@ -28,14 +28,22 @@ ul {
   font-weight: 500;
 }
 
-.content-section2 {
-  width: 23%; 
-  min-width: 400px;
+.flex-container {
+  display: flex;
+  flex-direction: row;  
+  justify-content: space-around;
+  padding: 20px 20px;
+  flex-wrap: wrap;
+}
+
+.content-section {
+  width: 300px;
+  height: 450px;
   background: #ffffff;
   border: 1px solid #dddddd;
-  border-radius: 3px;
+  border-radius: 5px;
+  margin: 20px 20px;
   position: relative;
-  justify-content: space-between;
 }
 
 .article-title {
