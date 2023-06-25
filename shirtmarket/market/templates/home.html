@@ -1,19 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-	<div class="flex-container">
-		{% for post in posts %}
-			<div class="content-section">
-				<img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-	  			<div class="media-body">
-	    			<div class="article-metadata">
-	      				<a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-	      				<small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-	    			</div>
-	    			<h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-	    			<p class="article-content">{{ post.content }}</p>
-	  			</div>
+    <div class="row">
+        <div class="col">
+			<div class="sidebar">
+				<a href="#">Test 1</a>
+				<a href="#">Test 2</a>
+				<a href="#">Test 3</a>
 			</div>
-		{% endfor %}
+		</div>
+        	<div class="col-md-10">
+		<div class="flex-container">
+
+				{% for post in posts %}
+					<div class="content-section">
+						<img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+	  					<div class="media-body">
+	    					<div class="article-metadata">
+	      						<a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+	      						<small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+	    					</div>
+	    					<h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+	    					<p class="article-content">{{ post.content }}</p>
+	  					</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
 	</div>
 	{% if is_paginated %}
 
