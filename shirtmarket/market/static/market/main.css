@@ -41,10 +41,11 @@ ul {
 }
 
 .sidebar {
-  height: 400px;
+  height: calc(80vh - 56px);
   min-width: 175px;
   position: sticky;
-  top: 100px;
+  vertical-align: middle;
+  top: calc(((100vh - 56px)/10) + 56px);
   background-color: #111;
   overflow-x: hidden;
   padding-top: 20px;
