@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+	<article class="media content-section">
+		<img class="article-img" src="{{ item.image.url }}">
+  		<div class="media-body">
+    		<div class="article-metadata">
+      			<small class="text-muted">{{ item.date_posted|date:"F d, Y" }}</small>
+    		</div>
+    		<h2 class="article-title">{{ item.name }}</h2>
+    		<p class="article-content">{{ item.description }}</p>
+    		<p class="article-content">${{ item.price }}</p>
+  		</div>
+	</article>
+{% endblock content %}

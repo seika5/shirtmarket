@@ -70,6 +70,23 @@ ul {
   position: relative;
 }
 
+.form-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.paginated {
+  display: flex;
+  justify-content: center;
+}
+
+.page{
+  margin: 0px 5px;
+}
+
 .article-title {
   color: #444444;
 }
