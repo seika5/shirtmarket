@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Item(models.Model):
 	name = models.CharField(max_length=100)
@@ -10,9 +10,10 @@ class Item(models.Model):
 	image = models.ImageField(default='item_default.jpg', upload_to='item_pics')
 	date_posted = models.DateTimeField(default=timezone.now)
 	price = models.DecimalField(max_digits=6, decimal_places=2)
-	total_rating = 0
-	rating_count = 0
-	sold = 0
+	sales_limit = models.IntegerField(default=-1, validators=[MinValueValidator(-1)])
+	total_rating = models.IntegerField(default=0)
+	rating_count = models.IntegerField(default=0)
+	sold = models.IntegerField(default=0)
 
 	def __str__(self):
 		return self.name

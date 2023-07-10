@@ -1,7 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Item
 
 class ItemListView(ListView):
@@ -11,38 +10,34 @@ class ItemListView(ListView):
 	ordering = ['-date_posted']
 	paginate_by = 12
 
-"""
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-	model = Post 
-	fields = ['title', 'content']
-	template_name = 'post_form.html'
+class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+	model = Item
+	fields = ['name', 'description', 'image', 'price', 'sales_limit']
+	template_name = 'item_form.html'
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
 
 	def test_func(self): 
-		post = self.get_object()
-		if self.request.user == post.author:
+		if self.request.user.is_superuser:
 			return True
 		return False
 
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-	model = Post 
+class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+	model = Item
 	success_url = '/'
-	template_name = 'post_confirm_delete.html'
-	context_object_name = 'post'
+	template_name = 'item_confirm_delete.html'
+	context_object_name = 'item'
 
 	def test_func(self): 
-		post = self.get_object()
-		if self.request.user == post.author:
+		if self.request.user.is_superuser:
 			return True
 		return False
-"""
 
 class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Item 
-	fields = ['name', 'description', 'image', 'price']
+	fields = ['name', 'description', 'image', 'price', 'sales_limit']
 	template_name = 'item_form.html'
 
 	def test_func(self): 

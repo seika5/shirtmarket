@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load mathfilters %}
 {% block content %}
 	<article class="media content-section">
 		<img class="article-img" src="{{ item.image.url }}">
@@ -6,9 +7,18 @@
     		<div class="article-metadata">
       			<small class="text-muted">{{ item.date_posted|date:"F d, Y" }}</small>
     		</div>
+            {% if user.is_superuser %}
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'item-update' object.id %}">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'item-delete' object.id %}">Delete</a>
+                </div>
+            {% endif %}
     		<h2 class="article-title">{{ item.name }}</h2>
     		<p class="article-content">{{ item.description }}</p>
     		<p class="article-content">${{ item.price }}</p>
+            {% if item.sales_limit != -1 %}
+                <p class="article-content">Items Remaining: {{ item.sales_limit|sub:item.sold }}</p>
+            {% endif %}
   		</div>
 	</article>
 {% endblock content %}
