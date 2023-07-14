@@ -22,8 +22,8 @@ class Item(models.Model):
 		return reverse('item-detail', kwargs={'pk': self.pk})
 
 class Favorite(models.Model):
-	user = models.ForeignKey(User, related_name='favorites', on_delete=models.CASCADE)
-	item = models.ForeignKey(Item, related_name='favorites', on_delete=models.CASCADE)
+	user = models.ForeignKey(User, related_name='favorite', on_delete=models.CASCADE)
+	item = models.ForeignKey(Item, related_name='favorite', on_delete=models.CASCADE)
 
 class Review(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -35,6 +35,7 @@ class Review(models.Model):
 	def __str__(self):
 		return self.title
 
-class Purchased(models.Model):
-	user = models.ForeignKey(User, related_name='purchased', on_delete=models.CASCADE)
-	item = models.ForeignKey(Item, related_name='purchased', on_delete=models.CASCADE)
+class Order(models.Model):
+	item = models.ForeignKey(Item, related_name='order', on_delete=models.CASCADE)
+	address = models.TextField()
+	date_ordered = models.DateTimeField(default=timezone.now)

@@ -19,7 +19,13 @@
             {% if item.sales_limit != -1 %}
                 <p class="article-content">Items Remaining: {{ item.sales_limit|sub:item.sold }}</p>
             {% endif %}
-            <a class="btn btn-success btn-sm mt-1 mb-1" id="purchase">Buy Now!</a>
+            {% if item.sales_limit == -1 %}
+                <a class="btn btn-success btn-sm mt-1 mb-1" id="purchase">Buy Now!</a>
+            {% elif item.sales_limit|sub:item.sold > 0 %}
+                <a class="btn btn-success btn-sm mt-1 mb-1" id="purchase">Buy Now!</a>
+            {% else %}
+                <a class="btn btn-danger btn-sm mt-1 mb-1">Sold Out</a>
+            {% endif %}
   		</div>
 	</article>
 {% endblock content %}
