@@ -9,7 +9,7 @@ class Item(models.Model):
 	description = models.TextField()
 	image = models.ImageField(default='item_default.jpg', upload_to='item_pics')
 	date_posted = models.DateTimeField(default=timezone.now)
-	price = models.DecimalField(max_digits=6, decimal_places=2)
+	price = models.IntegerField(default=2499)
 	sales_limit = models.IntegerField(default=-1, validators=[MinValueValidator(-1)])
 	total_rating = models.IntegerField(default=0)
 	rating_count = models.IntegerField(default=0)
