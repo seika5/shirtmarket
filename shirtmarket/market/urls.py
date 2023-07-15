@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ItemUpdateView, ItemDeleteView, ItemListView, ItemDetailView, ItemCreateView
+from .views import ItemListView, ItemCreateView, ItemUpdateView, ItemDeleteView, ItemDetailView, OrderListView
 from . import views
 
 urlpatterns = [
@@ -9,6 +9,8 @@ urlpatterns = [
     path('item/<int:pk>/delete/', ItemDeleteView.as_view(), name='item-delete'),
     path('item/<int:pk>/', ItemDetailView.as_view(), name='item-detail'),
     path('item/<int:pk>/create-checkout-session/', views.create_checkout_session),
+    path('orders/', OrderListView.as_view(), name='order-list'),
+    path('status-change/', views.status_change),
     path('webhook/', views.stripe_webhook),
     path('success/', views.purchaseSuccess),
     path('config/', views.stripe_config),

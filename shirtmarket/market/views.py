@@ -59,6 +59,18 @@ class ItemDetailView(DetailView):
 	template_name = 'item_detail.html'
 	context_object_name = 'item'
 
+class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+	model = Order
+	template_name = 'orders.html'
+	context_object_name = 'orders'
+	ordering = ['date_ordered']
+	paginate_by = 10
+
+	def test_func(self):
+		if self.request.user.is_superuser:
+			return True
+		return False
+
 def purchaseSuccess(request):
 	return render(request, 'purchase_success.html')
 
@@ -127,14 +139,20 @@ def stripe_webhook(request):
 
 	# Handle the checkout.session.completed event
 	if event['type'] == 'checkout.session.completed':
-		print("valid")
 		item = Item.objects.get(id=event.data.object.cancel_url.split("item/")[1])
 		if item.sales_limit == -1 or item.sales_limit > item.sold:
 			item.sold += 1
 		item.save()
-		print("valid")
-		print(request.user)
 		order = Order(item=item, address=event.data.object.shipping_details.address)
 		order.save()
 
 	return HttpResponse(status=200)
+
+@csrf_exempt
+def status_change(request):
+	id = request.POST.get("id")
+	order = Order.objects.get(id=id)
+	order.status += 1
+	order.save()
+
+	return HttpResponse()

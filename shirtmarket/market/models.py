@@ -39,3 +39,4 @@ class Order(models.Model):
 	item = models.ForeignKey(Item, related_name='order', on_delete=models.CASCADE)
 	address = models.TextField()
 	date_ordered = models.DateTimeField(default=timezone.now)
+	status = models.IntegerField(default=0)
