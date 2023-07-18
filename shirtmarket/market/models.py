@@ -11,8 +11,6 @@ class Item(models.Model):
 	date_posted = models.DateTimeField(default=timezone.now)
 	price = models.IntegerField(default=2499)
 	sales_limit = models.IntegerField(default=-1, validators=[MinValueValidator(-1)])
-	total_rating = models.IntegerField(default=0)
-	rating_count = models.IntegerField(default=0)
 	sold = models.IntegerField(default=0)
 
 	def __str__(self):
@@ -24,16 +22,6 @@ class Item(models.Model):
 class Favorite(models.Model):
 	user = models.ForeignKey(User, related_name='favorite', on_delete=models.CASCADE)
 	item = models.ForeignKey(Item, related_name='favorite', on_delete=models.CASCADE)
-
-class Review(models.Model):
-	author = models.ForeignKey(User, on_delete=models.CASCADE)
-	item = models.ForeignKey(Item, related_name='review', on_delete=models.CASCADE)
-	content = models.TextField()
-	date_posted = models.DateTimeField(default=timezone.now)
-	rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-
-	def __str__(self):
-		return self.title
 
 class Order(models.Model):
 	item = models.ForeignKey(Item, related_name='order', on_delete=models.CASCADE)
