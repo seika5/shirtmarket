@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
+from django.http import HttpResponseRedirect
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from market.models import Item
+from django.shortcuts import get_object_or_404
 
 def register(request):
 	if request.method == 'POST':
@@ -35,3 +40,23 @@ def profile(request):
 	}
 
 	return render(request, 'profile.html', context)
+
+@login_required
+def favorite(request, pk):
+	item = get_object_or_404(Item, id=pk)
+	if item.favorites.filter(id=request.user.id).exists():
+		item.favorites.remove(request.user)
+	else:
+		item.favorites.add(request.user)
+	return HttpResponseRedirect('/item/' + str(pk))
+
+class FavoriteListView(LoginRequiredMixin, ListView):
+	model = Item
+	template_name = 'favorites.html'
+
+	def get_context_data(self, *args, **kwargs):
+		favs = Item.objects.all()
+		orders = {
+			'favs': favs.filter(favorites=self.request.user).order_by('-date_posted'),
+		}
+		return orders

@@ -8,6 +8,7 @@ class Item(models.Model):
 	name = models.CharField(max_length=100)
 	description = models.TextField()
 	image = models.ImageField(default='item_default.jpg', upload_to='item_pics')
+	favorites = models.ManyToManyField(User, related_name='favorite', default=None, blank=True)
 	date_posted = models.DateTimeField(default=timezone.now)
 	price = models.IntegerField(default=2499)
 	sales_limit = models.IntegerField(default=-1, validators=[MinValueValidator(-1)])
