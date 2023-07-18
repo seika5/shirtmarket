@@ -19,10 +19,6 @@ class Item(models.Model):
 	def get_absolute_url(self):
 		return reverse('item-detail', kwargs={'pk': self.pk})
 
-class Favorite(models.Model):
-	user = models.ForeignKey(User, related_name='favorite', on_delete=models.CASCADE)
-	item = models.ForeignKey(Item, related_name='favorite', on_delete=models.CASCADE)
-
 class Order(models.Model):
 	item = models.ForeignKey(Item, related_name='order', on_delete=models.CASCADE)
 	address = models.TextField()

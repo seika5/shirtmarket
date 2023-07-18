@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Item, Favorite, Order
+from .models import Item, Order
 
 admin.site.register(Item)
-admin.site.register(Favorite)
 admin.site.register(Order)
