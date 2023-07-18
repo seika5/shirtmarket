@@ -77,6 +77,10 @@ ul {
   margin-bottom: 20px;
 }
 
+.sold-out {
+  color: red;
+}
+
 .order-list {
   border: 3px solid #dddddd;
   margin-bottom: 20px;
