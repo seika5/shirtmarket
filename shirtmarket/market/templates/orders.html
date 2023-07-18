@@ -14,6 +14,18 @@
     }
     </script>
 
+    <p class="status">
+        <strong>
+            {{ orders_unff }}
+        </strong> orders unfulfilled |
+        <strong>
+            {{ orders_enr }}
+        </strong> orders en route |
+        <strong>
+            {{ orders_ff }}
+        </strong> orders fulfilled
+    </p>
+
     {% for order in orders %}
         <div class="order-list">
             <h2><a class="article-title">{{ order.item }}</a></h2>
@@ -36,6 +48,11 @@
             <p class="text-muted">{{ order.date_ordered|date:"F d, Y - H:i:s" }}</p>
         </div>
     {% endfor %}
+
+    {% if not orders %}
+        <p class="status">all orders fulfilled</p>
+    {% endif %}
+
 	{% if is_paginated %}
 		<div class="paginated">
 			{% if page_obj.has_previous %}

@@ -62,9 +62,18 @@ class ItemDetailView(DetailView):
 class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 	model = Order
 	template_name = 'orders.html'
-	context_object_name = 'orders'
 	ordering = ['date_ordered']
 	paginate_by = 10
+
+	def get_context_data(self, *args, **kwargs):
+		order = Order.objects.all()
+		orders = {
+			'orders': order.exclude(status=2),
+			'orders_unff': order.filter(status=0).count(),
+			'orders_enr': order.filter(status=1).count(),
+			'orders_ff': order.filter(status=2).count(),
+		}
+		return orders
 
 	def test_func(self):
 		if self.request.user.is_superuser:
