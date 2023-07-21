@@ -36,6 +36,7 @@
 		        	<div class="navbar-nav">
 		        		{% if user.is_authenticated %}
 		        			{% if user.is_superuser %}
+		          				<a class="nav-item nav-link" href="{% url 'category-create' %}">New Category</a>
 		          				<a class="nav-item nav-link" href="{% url 'item-create' %}">New Item</a>
 		          				<a class="nav-item nav-link" href="{% url 'order-list' %}">Order List</a>
 		          			{% endif %}

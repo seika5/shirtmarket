@@ -14,6 +14,7 @@
                 </div>
             {% endif %}
     		<h2 class="article-title">{{ item.name }}</h2>
+            <p class="article-content">{{ item.category.name }} Category</p>
             <p class="article-content">{{ item.favorites.count }} ♡</p>
 	        {% if user in object.favorites.all %}
                 <a class="btn btn-outline-primary btn-sm mt-1 mb-1" href="{% url 'favorite' object.id %}">♡ Favorited!</a>

@@ -4,7 +4,7 @@ from django.http.response import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.conf import settings
-from .models import Item, Order
+from .models import Item, Category, Order
 import stripe
 
 class ItemListView(ListView):
@@ -16,7 +16,7 @@ class ItemListView(ListView):
 
 class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Item
-	fields = ['name', 'description', 'image', 'price', 'sales_limit']
+	fields = ['name', 'description', 'image', 'price', 'sales_limit', 'category']
 	template_name = 'item_form.html'
 
 	def form_valid(self, form):
@@ -41,7 +41,7 @@ class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Item 
-	fields = ['name', 'description', 'image', 'price', 'sales_limit']
+	fields = ['name', 'description', 'image', 'price', 'sales_limit', 'category']
 	template_name = 'item_form.html'
 
 	def test_func(self): 
@@ -57,6 +57,20 @@ class ItemDetailView(DetailView):
 	model = Item 
 	template_name = 'item_detail.html'
 	context_object_name = 'item'
+
+class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+	model = Category
+	fields = ['name']
+	template_name = 'category_form.html'
+
+	def test_func(self):
+		if self.request.user.is_superuser:
+			return True
+		return False
+
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		return super().form_valid(form)
 
 class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 	model = Order

@@ -4,7 +4,18 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+class Category(models.Model):
+	name = models.CharField(max_length=100)
+	date_posted = models.DateTimeField(default=timezone.now)
+
+	def __str__(self):
+		return self.name
+
+	def get_absolute_url(self):
+		return '/'
+
 class Item(models.Model):
+	category = models.ForeignKey(Category, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100)
 	description = models.TextField()
 	image = models.ImageField(default='item_default.jpg', upload_to='item_pics')
