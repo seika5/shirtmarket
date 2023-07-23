@@ -35,8 +35,6 @@
                     <p class="unff">status: unfulfilled</p>
                 {% elif order.status == 1 %}
                     <p>status: en route</p>
-                {% elif order.status == 2 %}
-                    <p class="ff">status: fulfilled</p>
                 {% endif %}
 
                 {% if order.status == 0 %}
@@ -52,6 +50,17 @@
     {% if not orders %}
         <p class="status">all orders fulfilled</p>
     {% endif %}
+
+    {% for fforder in fforders %}
+        <div class="order-list">
+            <h2><a class="article-title">{{ fforder.item }}</a></h2>
+            <p class="article-content">{{ fforder.address }}</p>
+            <div class="status">
+                <p class="ff">status: fulfilled</p>
+            </div>
+            <p class="text-muted">{{ fforder.date_ordered|date:"F d, Y - H:i:s" }}</p>
+        </div>
+    {% endfor %}
 
 	{% if is_paginated %}
 		<div class="paginated">

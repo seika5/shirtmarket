@@ -4,9 +4,9 @@
     <div class="row">
         <div class="col">
 			<div class="sidebar">
-				<a href="#">Test 1</a>
-				<a href="#">Test 2</a>
-				<a href="#">Test 3</a>
+                {% for category in categories %}
+				    <a href="{% url 'category-list' category.id %}">{{ category.name }}</a>
+                {% endfor %}
 			</div>
 		</div>
         <div class="col-md-10">

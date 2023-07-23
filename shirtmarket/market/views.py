@@ -10,9 +10,15 @@ import stripe
 class ItemListView(ListView):
 	model = Item
 	template_name = 'home.html'
-	context_object_name = 'items'
 	ordering = ['-date_posted']
 	paginate_by = 12
+
+	def get_context_data(self, *args, **kwargs):
+		context = {
+			'items': Item.objects.all(),
+			'categories': Category.objects.all(),
+		}
+		return context
 
 class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Item
@@ -58,6 +64,19 @@ class ItemDetailView(DetailView):
 	template_name = 'item_detail.html'
 	context_object_name = 'item'
 
+class CategoryListView(ListView):
+	model = Item
+	template_name = 'home.html'
+	ordering = ['-date_posted']
+	paginate_by = 12
+
+	def get_context_data(self, *args, **kwargs):
+		context = {
+			'items': Item.objects.filter(category=self.kwargs.get('pk')),
+			'categories': Category.objects.all(),
+		}
+		return context
+
 class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Category
 	fields = ['name']
@@ -80,13 +99,14 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 	def get_context_data(self, *args, **kwargs):
 		order = Order.objects.all()
-		orders = {
+		context = {
 			'orders': order.exclude(status=2),
+			'fforders': order.filter(status=2),
 			'orders_unff': order.filter(status=0).count(),
 			'orders_enr': order.filter(status=1).count(),
 			'orders_ff': order.filter(status=2).count(),
 		}
-		return orders
+		return context
 
 	def test_func(self):
 		if self.request.user.is_superuser:
