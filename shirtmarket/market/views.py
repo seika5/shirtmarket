@@ -4,20 +4,22 @@ from django.http.response import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.conf import settings
+from itertools import chain
 from .models import Item, Category, Order
 import stripe
 
 class ItemListView(ListView):
 	model = Item
 	template_name = 'home.html'
-	ordering = ['-date_posted']
 	paginate_by = 12
 
+	def get_queryset(self):
+		items = Item.objects.all().order_by('-date_posted')
+		return items
+
 	def get_context_data(self, *args, **kwargs):
-		context = {
-			'items': Item.objects.all(),
-			'categories': Category.objects.all(),
-		}
+		context = super().get_context_data(**kwargs)
+		context['categories'] = Category.objects.all().order_by('-date_posted')
 		return context
 
 class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -67,14 +69,15 @@ class ItemDetailView(DetailView):
 class CategoryListView(ListView):
 	model = Item
 	template_name = 'home.html'
-	ordering = ['-date_posted']
 	paginate_by = 12
 
+	def get_queryset(self):
+		items = Item.objects.filter(category=self.kwargs.get('pk')).order_by('-date_posted')
+		return items
+
 	def get_context_data(self, *args, **kwargs):
-		context = {
-			'items': Item.objects.filter(category=self.kwargs.get('pk')),
-			'categories': Category.objects.all(),
-		}
+		context = super().get_context_data(**kwargs)
+		context['categories'] = Category.objects.all().order_by('-date_posted')
 		return context
 
 class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -94,14 +97,12 @@ class CategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 	model = Order
 	template_name = 'orders.html'
-	ordering = ['date_ordered']
-	paginate_by = 10
 
 	def get_context_data(self, *args, **kwargs):
 		order = Order.objects.all()
 		context = {
-			'orders': order.exclude(status=2),
-			'fforders': order.filter(status=2),
+			'orders': order.exclude(status=2).order_by('date_ordered'),
+			'fforders': order.filter(status=2).order_by('-date_ordered'),
 			'orders_unff': order.filter(status=0).count(),
 			'orders_enr': order.filter(status=1).count(),
 			'orders_ff': order.filter(status=2).count(),

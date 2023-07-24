@@ -66,7 +66,6 @@ ul {
   border: 1px solid #dddddd;
   border-radius: 5px;
   margin: 20px 20px;
-  position: relative;
 }
 
 .form-section {
@@ -109,6 +108,7 @@ ul {
 
 .article-title {
   color: #444444;
+  margin-left: 25px;
 }
 
 a.article-title:hover {
@@ -118,12 +118,15 @@ a.article-title:hover {
 
 .article-content {
   white-space: pre-line;
+  margin-left: 25px;
 }
 
 .article-img {
-  height: 65px;
-  width: 65px;
-  margin-right: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 275px;
+  width: 275px;
 }
 
 .article-metadata {
