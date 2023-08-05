@@ -1,16 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http.response import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.conf import settings
-from itertools import chain
 from .models import Item, Category, Order
 import stripe
 
+def landing(request):
+	return render(request, 'home.html')
+
 class ItemListView(ListView):
 	model = Item
-	template_name = 'home.html'
+	template_name = 'store.html'
 	paginate_by = 12
 
 	def get_queryset(self):
@@ -68,7 +71,7 @@ class ItemDetailView(DetailView):
 
 class CategoryListView(ListView):
 	model = Item
-	template_name = 'home.html'
+	template_name = 'store.html'
 	paginate_by = 12
 
 	def get_queryset(self):
@@ -115,10 +118,11 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 		return False
 
 def purchaseSuccess(request):
-	return render(request, 'purchase_success.html')
+	messages.success(request, f'Purchase Successful.')
+	return redirect('market-home')
 
 def about(request):
-	return render(request, 'about.html', {'title': 'About'})
+	return render(request, 'about.html')
 
 @csrf_exempt
 def stripe_config(request):
