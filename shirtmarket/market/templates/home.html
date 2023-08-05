@@ -5,7 +5,12 @@
         <div class="col">
 			<div class="sidebar">
                 {% for category in categories %}
-				    <a href="{% url 'category-list' category.id %}">{{ category.name }}</a>
+                    {% url 'category-list' category.id as url %}
+                    {% if request.path == url %}
+				        <a class="current" href="{% url 'category-list' category.id %}">{{ category.name }}</a>
+                    {% else %}
+				        <a class="cat-list" href="{% url 'category-list' category.id %}">{{ category.name }}</a>
+                    {% endif %}
                 {% endfor %}
 			</div>
 		</div>

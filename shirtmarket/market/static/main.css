@@ -50,11 +50,25 @@ ul {
   padding-top: 20px;
 }
 
-.sidebar a {
+.sidebar a:hover {
+  text-decoration: none;
+  color: gray;
+}
+
+.current {
+  text-align: center;
+  text-decoration: underline;
+  font-size: 25px;
+  color: #ffffff;
+  display: block;
+  margin-top: 10px;
+}
+
+.cat-list {
   text-align: center;
   text-decoration: none;
   font-size: 25px;
-  font: #818181;
+  color: #ffffff;
   display: block;
   margin-top: 10px;
 }
