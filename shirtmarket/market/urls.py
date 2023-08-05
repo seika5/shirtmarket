@@ -15,7 +15,6 @@ urlpatterns = [
     path('orders/', OrderListView.as_view(), name='order-list'),
     path('status-change/', views.status_change),
     path('webhook/', views.stripe_webhook),
-    path('success/', views.purchaseSuccess),
     path('config/', views.stripe_config),
     path('about/', views.about, name='market-about'),
 ]
