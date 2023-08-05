@@ -62,4 +62,21 @@
 			{% endif %}		
 		</div>
 	{% endif %}
+    <script>
+        var observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('cs-ani');
+                return;
+              }
+
+              entry.target.classList.remove('cs-ani');
+          });
+        });
+
+        var cs = document.querySelectorAll(".content-section");
+        for (let i = 0; i < cs.length; i++) {
+            observer.observe(cs[i]);
+        }
+    </script>
 {% endblock content %}
