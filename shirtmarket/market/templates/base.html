@@ -26,24 +26,24 @@
 			    </button>
 		      	<div class="collapse navbar-collapse" id="navbarToggle">
 		        	<div class="navbar-nav mr-auto">
-		          		<a class="nav-item nav-link" href="{% url 'landing' %}">Home</a>
-		          		<a class="nav-item nav-link" href="{% url 'market-home' %}">Store</a>
-		          		<a class="nav-item nav-link" href="{% url 'market-about' %}">Contact Us</a>
+		          		<a class="nav-item nav-link" href="{% url 'landing' %}">home</a>
+		          		<a class="nav-item nav-link" href="{% url 'market-home' %}">store</a>
+		          		<a class="nav-item nav-link" href="{% url 'market-about' %}">contact</a>
 		        	</div>
 
 		        	<div class="navbar-nav">
 		        		{% if user.is_authenticated %}
 		        			{% if user.is_superuser %}
-		          				<a class="nav-item nav-link" href="{% url 'category-create' %}">New Category</a>
-		          				<a class="nav-item nav-link" href="{% url 'item-create' %}">New Item</a>
-		          				<a class="nav-item nav-link" href="{% url 'order-list' %}">Order List</a>
+		          				<a class="nav-item nav-link" href="{% url 'category-create' %}">category</a>
+		          				<a class="nav-item nav-link" href="{% url 'item-create' %}">item</a>
+		          				<a class="nav-item nav-link mr-3" href="{% url 'order-list' %}">orders</a>
 		          			{% endif %}
-		          			<a class="nav-item nav-link" href="{% url 'favorite_list' %}">Favorites</a>
-		          			<a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-		          			<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+		          			<a class="nav-item nav-link" href="{% url 'favorite_list' %}">favorites</a>
+		          			<a class="nav-item nav-link" href="{% url 'profile' %}">profile</a>
+		          			<a class="nav-item nav-link" href="{% url 'logout' %}">logout</a>
 		        		{% else %}
-		          			<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-		          			<a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+		          			<a class="nav-item nav-link" href="{% url 'login' %}">login</a>
+		          			<a class="nav-item nav-link" href="{% url 'register' %}">register</a>
 		          		{% endif %}
 		        	</div>
 		      	</div>

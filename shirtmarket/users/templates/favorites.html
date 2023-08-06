@@ -2,25 +2,47 @@
 {% load mathfilters %}
 {% block content %}
     <div class="flex-container">
-        {% for fav in favs %}
+        {% for item in favs %}
             <div class="content-section">
-                <img class="article-img" src="{{ fav.image.url }}">
                 <div class="media-body">
-                    <div class="article-metadata">
-                        <small class="text-muted">{{ fav.date_posted|date:"F d, Y" }}</small>
-                    </div>
-                    <h2><a class="article-title" href="{% url 'item-detail' fav.id %}">{{ fav.name }}</a></h2>
-                    <p class="article-content">{{ fav.description }}</p>
-                    <p class="article-content">${{ fav.price|div:100 }}</p>
-                    {% if fav.sales_limit != -1 %}
-                        <p class="article-content">Items Remaining: {{ fav.sales_limit|sub:fav.sold }}</p>
-                        {% if fav.sales_limit|sub:fav.sold == 0 %}
-                            <p class="sold-out">Sold Out</p>
+                    <h2><a class="article-title" href="{% url 'item-detail' item.id %}">{{ item.name }}</a></h2>
+                    <a href="{% url 'item-detail' item.id %}">
+                        <img class="article-img" src="{{ item.image.url }}">
+                    </a>
+                    <p class="article-content">${{ item.price|div:100 }}</p>
+
+                </div>
+                <div class="article-end">
+                    {% if item.sales_limit != -1 %}
+                        <p class="article-content">Items Remaining: {{ item.sales_limit|sub:item.sold }}</p>
+                        {% if item.sales_limit|sub:item.sold == 0 %}
+                            <p class="article-content sold-out">Sold Out</p>
                         {% endif %}
                     {% endif %}
-                    <p class="article-content">{{ fav.favorites.count }} ♡</p>
+                    <div class="article-info flex-container">
+                        <p class="article-content">{{ item.favorites.count }} ♡</p>
+                        <small class="article-date text-muted">{{ item.date_posted|date:"F d, Y" }}</small>
+                    </div>
                 </div>
             </div>
         {% endfor %}
     </div>
+
+    <script>
+        var observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('cs-ani');
+                return;
+              }
+
+              entry.target.classList.remove('cs-ani');
+          });
+        });
+
+        var cs = document.querySelectorAll(".content-section");
+        for (let i = 0; i < cs.length; i++) {
+            observer.observe(cs[i]);
+        }
+    </script>
 {% endblock content %}
