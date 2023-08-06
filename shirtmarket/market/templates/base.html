@@ -28,9 +28,9 @@
 		        	<div class="navbar-nav mr-auto">
 		          		<a class="nav-item nav-link" href="{% url 'landing' %}">Home</a>
 		          		<a class="nav-item nav-link" href="{% url 'market-home' %}">Store</a>
-		          		<a class="nav-item nav-link" href="{% url 'market-about' %}">About</a>
+		          		<a class="nav-item nav-link" href="{% url 'market-about' %}">Contact Us</a>
 		        	</div>
-		        	<!-- Navbar Right Side -->
+
 		        	<div class="navbar-nav">
 		        		{% if user.is_authenticated %}
 		        			{% if user.is_superuser %}

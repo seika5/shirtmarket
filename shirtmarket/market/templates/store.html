@@ -4,6 +4,12 @@
     <div class="row">
         <div class="col">
 			<div class="sidebar">
+                {% url 'market-home' as url %}
+                {% if request.path == url %}
+                    <a class="current" href="{% url 'market-home' %}">All Collections</a>
+                {% else %}
+                    <a class="cat-list" href="{% url 'market-home' %}">All Collections</a>
+                {% endif %}
                 {% for category in categories %}
                     {% url 'category-list' category.id as url %}
                     {% if request.path == url %}
@@ -20,7 +26,9 @@
 					<div class="content-section">
 	  					<div class="media-body">
 	    					<h2><a class="article-title" href="{% url 'item-detail' item.id %}">{{ item.name }}</a></h2>
-						    <img class="article-img" src="{{ item.image.url }}">
+                            <a href="{% url 'item-detail' item.id %}">
+                                <img class="article-img" src="{{ item.image.url }}">
+                            </a>
     		                <p class="article-content">${{ item.price|div:100 }}</p>
 
 	  					</div>
@@ -62,6 +70,7 @@
 			{% endif %}		
 		</div>
 	{% endif %}
+
     <script>
         var observer = new IntersectionObserver(entries => {
           entries.forEach(entry => {

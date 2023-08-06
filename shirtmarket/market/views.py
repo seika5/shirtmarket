@@ -5,11 +5,26 @@ from django.http.response import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.conf import settings
+from django.db.models import Count
 from .models import Item, Category, Order
 import stripe
 
-def landing(request):
-	return render(request, 'home.html')
+class LandingView(ListView):
+	model = Item
+	template_name = 'home.html'
+
+	def get_context_data(self, *args, **kwargs):
+		favorites = Item.objects.order_by('-favorites')
+		category = Category.objects.latest('id')
+		items = Item.objects.filter(category=category)
+		items = items.annotate(num_fav=Count('favorites'))
+		items = items.order_by('-num_fav')
+		context = {
+			'most_liked': favorites.filter()[:2],
+			'items': items.filter()[:4],
+			'category': category.name,
+		}
+		return context
 
 class ItemListView(ListView):
 	model = Item
