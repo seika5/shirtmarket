@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -139,10 +138,6 @@ def purchaseSuccess(request):
 	messages.success(request, f'Purchase Successful.')
 	return redirect('market-home')
 
-def about(request):
-	return render(request, 'about.html')
-
-@login_required
 def contact(request):
 	if request.method == 'POST':
 		form = ContactForm(request.POST)
@@ -156,10 +151,10 @@ def contact(request):
 				message,
 				settings.EMAIL_HOST_USER,
 				[settings.EMAIL_HOST_USER],
-				fail_silently=False,
+				fail_silently=True,
 			)
 			messages.success(request, f'Email Sent.')
-			return redirect('market-about')
+			return redirect('contact')
 	else:
 		form = ContactForm()
 	return render(request, 'contact.html', {'form': form})
@@ -218,13 +213,10 @@ def stripe_webhook(request):
 			payload, sig_header, endpoint_secret
 		)
 	except ValueError as e:
-		# Invalid payload
 		return HttpResponse(status=400)
 	except stripe.error.SignatureVerificationError as e:
-		# Invalid signature
 		return HttpResponse(status=400)
 
-	# Handle the checkout.session.completed event
 	if event['type'] == 'checkout.session.completed':
 		item = Item.objects.get(id=event.data.object.cancel_url.split("item/")[1])
 		if item.sales_limit == -1 or item.sales_limit > item.sold:
