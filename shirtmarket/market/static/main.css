@@ -18,6 +18,7 @@ ul {
 
 .site-header .navbar-nav .nav-link {
   color: #cbd5db;
+  transition: 0.5s;
 }
 
 .site-header .navbar-nav .nav-link:hover {
@@ -62,6 +63,7 @@ ul {
   color: #ffffff;
   display: block;
   margin-top: 10px;
+  transition: 0.5s;
 }
 
 .cat-list {
@@ -71,6 +73,7 @@ ul {
   color: #ffffff;
   display: block;
   margin-top: 10px;
+  transition: 0.5s;
 }
 
 .landing-head {
@@ -142,7 +145,7 @@ ul {
   width: 40vw;
   height: 40vw;
   margin-bottom: 10px;
-  transition: transform .2s;
+  transition: .2s;
 }
 
 .landing-img:hover {
@@ -172,7 +175,7 @@ a.landing-title:hover {
   border: 1px solid #dddddd;
   border-radius: 5px;
   margin: 20px 20px;
-  transition: 0.2s ease;
+  transition: 0.1s ease;
   opacity: 0;
 }
 
@@ -253,6 +256,7 @@ a.landing-title:hover {
 
 .page{
   margin: 0px 5px;
+  transition: 0.5s;
 }
 
 .media-body h2 {
@@ -261,6 +265,7 @@ a.landing-title:hover {
 
 .article-title {
   color: #444444;
+  transition: 0.5s;
 }
 
 a.article-title:hover {
@@ -287,7 +292,7 @@ a.article-title:hover {
   margin-right: auto;
   height: 275px;
   width: 275px;
-  transition: transform .2s;
+  transition: .2s;
 }
 
 .article-img:hover {
