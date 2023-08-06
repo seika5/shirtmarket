@@ -17,4 +17,5 @@ urlpatterns = [
     path('webhook/', views.stripe_webhook),
     path('config/', views.stripe_config),
     path('about/', views.about, name='market-about'),
+    path('contact/', views.contact, name='contact'),
 ]

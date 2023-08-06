@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
+from django.core.mail import send_mail
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.conf import settings
 from django.db.models import Count
 from .models import Item, Category, Order
+from .forms import ContactForm
 import stripe
 
 class LandingView(ListView):
@@ -138,6 +141,28 @@ def purchaseSuccess(request):
 
 def about(request):
 	return render(request, 'about.html')
+
+@login_required
+def contact(request):
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		if form.is_valid():
+			name = request.user.username
+			email = request.user.email
+			subject = request.POST.get('subject')
+			message = request.POST.get('message')
+			send_mail(
+				"{} ({}): {}".format(name, email, subject),
+				message,
+				settings.EMAIL_HOST_USER,
+				[settings.EMAIL_HOST_USER],
+				fail_silently=False,
+			)
+			messages.success(request, f'Email Sent.')
+			return redirect('market-about')
+	else:
+		form = ContactForm()
+	return render(request, 'contact.html', {'form': form})
 
 @csrf_exempt
 def stripe_config(request):
