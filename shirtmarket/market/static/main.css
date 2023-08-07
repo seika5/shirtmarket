@@ -220,6 +220,22 @@ a.landing-title:hover {
   }
 }
 
+.socials {
+  display: flex;
+  justify-content: start;
+  align-items: baseline;
+}
+
+.socials a {
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.faq {
+  display: flex;
+  flex-direction: column;
+}
+
 .form-section {
   background: #ffffff;
   padding: 10px 20px;
@@ -327,6 +343,16 @@ a.article-title:hover {
 
 .detail-titlebox a {
   transform: translateY(50%);
+}
+
+.detail-cat a {
+  text-decoration: none;
+  color: gray;
+  transition: 0.5s;
+}
+
+.detail-cat a:hover {
+  color: lightsteelblue;
 }
 
 .detail-favorite {

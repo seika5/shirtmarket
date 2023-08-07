@@ -16,7 +16,7 @@ class LandingView(ListView):
 	template_name = 'home.html'
 
 	def get_context_data(self, *args, **kwargs):
-		favorites = Item.objects.order_by('-favorites')
+		favorites = Item.objects.annotate(fav=Count('favorites')).order_by('-fav')
 		category = Category.objects.latest('id')
 		items = Item.objects.filter(category=category)
 		items = items.annotate(num_fav=Count('favorites'))
@@ -175,7 +175,7 @@ def create_checkout_session(request, pk):
 			stripe.api_key = settings.STRIPE_SECRET_KEY
 			try:
 				checkout_session = stripe.checkout.Session.create(
-					success_url = domain_url + "success",
+					success_url = domain_url + "item/" + str(pk),
 					cancel_url = domain_url + "item/" + str(pk),
 					payment_method_types=['card'],
 					mode='payment',
@@ -195,6 +195,7 @@ def create_checkout_session(request, pk):
 						"allowed_countries": ['US']
 					}
 				)
+				messages.success(request, f'Purchase Successful.')
 				return JsonResponse({'sessionId': checkout_session['id']})
 			except Exception as e:
 				return JsonResponse({'error': str(e)})

@@ -14,7 +14,9 @@
                         </div>
                     {% endif %}
                 </div>
-                <p class="text-muted detail-muted">{{ item.category.name }}</p>
+                <div class="detail-cat">
+                    <a class="detail-muted" href="{% url 'category-list' item.category.id %}">{{ item.category.name }}</a>
+                </div>
                 <div class="detail-favorite">
                     <p class="detail-content">{{ item.favorites.count }} ♡</p>
                     {% if user in object.favorites.all %}
