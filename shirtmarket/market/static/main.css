@@ -236,6 +236,11 @@ a.landing-title:hover {
   flex-direction: column;
 }
 
+.faq h2 {
+  text-decoration: underline;
+  margin-bottom: 15px;
+}
+
 .form-section {
   background: #ffffff;
   padding: 10px 20px;
