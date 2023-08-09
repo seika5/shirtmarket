@@ -9,7 +9,7 @@ from django.conf import settings
 from django.db.models import Count
 from .models import Item, Category, Order
 from .forms import ContactForm
-import stripe
+import stripe, time
 
 class LandingView(ListView):
 	model = Item
@@ -134,9 +134,10 @@ class OrderListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 			return True
 		return False
 
-def purchaseSuccess(request):
+def purchaseSuccess(request, pk):
+	item = Item.objects.get(id=pk)
 	messages.success(request, f'Purchase Successful.')
-	return redirect('market-home')
+	return redirect('item-detail', item.id)
 
 def contact(request):
 	if request.method == 'POST':
@@ -169,15 +170,18 @@ def stripe_config(request):
 def create_checkout_session(request, pk):
 	item = Item.objects.get(id=pk)
 	if item.sales_limit == -1 or item.sales_limit - item.sold > 0:
+		item.sold += 1
+		item.save()
 		if request.method == 'GET':
 			if settings.DEBUG:
 				domain_url = "http://localhost:8000/"
 			stripe.api_key = settings.STRIPE_SECRET_KEY
 			try:
 				checkout_session = stripe.checkout.Session.create(
-					success_url = domain_url + "item/" + str(pk),
-					cancel_url = domain_url + "item/" + str(pk),
+					success_url=domain_url + "purchase-success/" + str(pk),
+					cancel_url=domain_url + "item/" + str(pk),
 					payment_method_types=['card'],
+					expires_at=int(time.time() + 1800),
 					mode='payment',
 					line_items=[
 						{
@@ -195,7 +199,6 @@ def create_checkout_session(request, pk):
 						"allowed_countries": ['US']
 					}
 				)
-				messages.success(request, f'Purchase Successful.')
 				return JsonResponse({'sessionId': checkout_session['id']})
 			except Exception as e:
 				return JsonResponse({'error': str(e)})
@@ -220,11 +223,12 @@ def stripe_webhook(request):
 
 	if event['type'] == 'checkout.session.completed':
 		item = Item.objects.get(id=event.data.object.cancel_url.split("item/")[1])
-		if item.sales_limit == -1 or item.sales_limit > item.sold:
-			item.sold += 1
-		item.save()
 		order = Order(item=item, address=event.data.object.shipping_details.address)
 		order.save()
+	elif event['type'] == 'checkout.session.expired':
+		item = Item.objects.get(id=event.data.object.cancel_url.split("item/")[1])
+		item.sold -= 1
+		item.save()
 
 	return HttpResponse(status=200)
 
