@@ -35,13 +35,13 @@
                         <div class="article-end">
                             {% if item.sales_limit != -1 %}
                                 <p class="article-content">Items Remaining: {{ item.sales_limit|sub:item.sold }}</p>
-                                {% if item.sales_limit|sub:item.sold == 0 %}
-                                    <p class="article-content sold-out">Sold Out</p>
-                                {% endif %}
+                            {% endif %}
+                            {% if item.expire_date %}
+                                <p class="article-content">Time Limit: {{ item.expire_date }}</p>
                             {% endif %}
                             <div class="article-info flex-container">
                                 <p class="article-content">{{ item.favorites.count }} ♡</p>
-                                <small class="article-date text-muted">{{ item.date_posted|date:"F d, Y" }}</small>
+                                <small class="article-date text-muted">Posted - {{ item.date_posted|date:"F d, Y" }}</small>
                             </div>
                         </div>
 					</div>

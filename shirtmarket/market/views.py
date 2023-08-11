@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.contrib import messages
@@ -69,7 +71,7 @@ class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 	model = Item 
-	fields = ['name', 'description', 'image', 'price', 'sales_limit', 'category']
+	fields = ['name', 'description', 'image', 'price', 'sales_limit', 'expire_date', 'category']
 	template_name = 'item_form.html'
 
 	def test_func(self): 
@@ -84,7 +86,19 @@ class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class ItemDetailView(DetailView):
 	model = Item 
 	template_name = 'item_detail.html'
-	context_object_name = 'item'
+
+	def get_context_data(self, *args, **kwargs):
+		item = Item.objects.get(id=self.kwargs.get('pk'))
+		if item.expire_date:
+			context = {
+				'item': item,
+				'expired': item.expire_date <= datetime.date.today(),
+			}
+		else:
+			context = {
+				'item': item,
+			}
+		return context
 
 class CategoryListView(ListView):
 	model = Item
@@ -169,7 +183,7 @@ def stripe_config(request):
 @csrf_exempt
 def create_checkout_session(request, pk):
 	item = Item.objects.get(id=pk)
-	if item.sales_limit == -1 or item.sales_limit - item.sold > 0:
+	if ((item.expire_date is None) or (item.expire_date > datetime.date.today())) and (item.sales_limit == -1 or item.sales_limit - item.sold > 0):
 		item.sold += 1
 		item.save()
 		if request.method == 'GET':

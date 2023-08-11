@@ -275,10 +275,6 @@ a.landing-title:hover {
   margin-bottom: 20px;
 }
 
-.sold-out {
-  color: var(--base-neg-color);
-}
-
 .order-list {
   border: 3px solid var(--content-border-color);
   margin-bottom: 20px;

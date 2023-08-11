@@ -42,8 +42,8 @@
                 <div class="article-end">
                     {% if item.sales_limit != -1 %}
                         <p class="article-content">Items Remaining: {{ item.sales_limit|sub:item.sold }}</p>
-                        {% if item.sales_limit|sub:item.sold == 0 %}
-                            <p class="article-content sold-out">Sold Out</p>
+                        {% if item.expire_date %}
+                            <p class="article-content">Time Limit: {{ item.expire_date }}</p>
                         {% endif %}
                     {% endif %}
                     <div class="article-info flex-container">
