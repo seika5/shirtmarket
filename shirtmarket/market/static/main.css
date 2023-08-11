@@ -1,26 +1,26 @@
 :root {
   /* Base */
-  --base-bg-color: #fafafa;
+  --base-bg-color: #fff7f2;
   --base-neg-color: red;
   --base-pos-color: lawngreen;
 
   /* Header */
-  --header-bg-color: #5f788a;
-  --header-link-color: #cbd5db;
-  --header-link-color-hover: #ffffff;
+  --header-bg-color: #d7c5ba;
+  --header-link-color: #ad6027;
+  --header-link-color-hover: #d5a688;
 
   /* Landing */
   --landing-header-bg-color: #cecece;
   --landing-title-text-color: #444444;
 
   /* Sidebar*/
-  --sidebar-bg-color: #111;
-  --sidebar-link-color: white;
-  --sidebar-link-color-hover: gray;
+  --sidebar-bg-color: #f1eded;
+  --sidebar-link-color: #000000;
+  --sidebar-link-color-hover: #bba189;
 
   /* Content */
-  --content-bg-color: #ffffff;
-  --content-border-color: #dddddd;
+  --content-bg-color: #f1eded;
+  --content-border-color: #f1eded;
   --content-title-text-color: #444444;
   --content-title-text-color-hover: #428bca;
   --content-secondary-text-color: #333333;
@@ -197,7 +197,6 @@ a.landing-title:hover {
   height: 525px;
   background: var(--content-bg-color);
   border: 1px solid var(--content-border-color);
-  border-radius: 5px;
   margin: 20px 20px;
   transition: 0.1s ease;
   opacity: 0;
@@ -219,7 +218,6 @@ a.landing-title:hover {
   width: 100%;
   background: var(--content-bg-color);
   border: 1px solid var(--content-border-color);
-  border-radius: 5px;
 }
 
 .detail-section {
@@ -271,7 +269,6 @@ a.landing-title:hover {
   background: var(--content-bg-color);
   padding: 10px 20px;
   border: 1px solid var(--content-border-color);
-  border-radius: 3px;
   margin-bottom: 20px;
 }
 
