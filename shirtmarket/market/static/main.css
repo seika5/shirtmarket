@@ -1,28 +1,28 @@
 :root {
   /* Base */
-  --base-bg-color: #fff7f2;
+  --base-bg-color: #ffffff;
   --base-neg-color: red;
   --base-pos-color: lawngreen;
 
   /* Header */
-  --header-bg-color: #d7c5ba;
-  --header-link-color: #ad6027;
-  --header-link-color-hover: #d5a688;
+  --header-bg-color: #d3d3d3;
+  --header-link-color: gray;
+  --header-link-color-hover: lightsteelblue;
 
   /* Landing */
   --landing-header-bg-color: #cecece;
   --landing-title-text-color: #444444;
 
   /* Sidebar*/
-  --sidebar-bg-color: #f1eded;
-  --sidebar-link-color: #000000;
-  --sidebar-link-color-hover: #bba189;
+  --sidebar-bg-color: transparent;
+  --sidebar-link-color: #565656;
+  --sidebar-link-color-hover: lightsteelblue;
 
   /* Content */
-  --content-bg-color: #f1eded;
-  --content-border-color: #f1eded;
-  --content-title-text-color: #444444;
-  --content-title-text-color-hover: #428bca;
+  --content-bg-color: transparent;
+  --content-border-color: transparent;
+  --content-title-text-color: #565656;
+  --content-title-text-color-hover: lightsteelblue;
   --content-secondary-text-color: #333333;
   --content-tertiary-text-color: gray;
   --content-tertiary-text-color-hover: lightsteelblue;
@@ -82,7 +82,7 @@ ul {
 }
 
 .sidebar a {
-  text-align: center;
+  text-align: left;
   margin-top: 10px;
   transition: 0.5s;
   font-size: 25px;
@@ -166,8 +166,8 @@ ul {
 }
 
 .landing-img {
-  width: 40vw;
-  height: 40vw;
+  width: 20vw;
+  height: 20vw;
   margin-bottom: 10px;
   transition: .2s;
 }
@@ -193,23 +193,11 @@ a.landing-title:hover {
 .content-section {
   display: flex;
   flex-flow: column;
-  width: 325px;
-  height: 525px;
+  width: 300px;
+  height: 375px;
   background: var(--content-bg-color);
   border: 1px solid var(--content-border-color);
   margin: 20px 20px;
-  transition: 0.1s ease;
-  opacity: 0;
-}
-
-.cs-ani{
-  opacity: 1;
-  animation: fadeIn 1s;
-}
-
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
 }
 
 .detail-container {
@@ -300,11 +288,12 @@ a.landing-title:hover {
 }
 
 .media-body h2 {
-  margin: 20px 0px 5px 25px;
+  margin: 5px 0px 5px 25px;
 }
 
 .article-title {
   color: var(--content-title-text-color);
+  font-size: x-large;
   transition: 0.5s;
 }
 
