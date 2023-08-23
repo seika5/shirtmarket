@@ -10,11 +10,11 @@
   --header-link-color-hover: lightsteelblue;
 
   /* Landing */
-  --landing-header-bg-color: #cecece;
+  --landing-header-bg-color: #f1f1f1;
   --landing-title-text-color: #444444;
 
   /* Sidebar*/
-  --sidebar-bg-color: transparent;
+  --sidebar-bg-color: #f6f6f6;
   --sidebar-link-color: #565656;
   --sidebar-link-color-hover: lightsteelblue;
 
@@ -84,6 +84,7 @@ ul {
 .sidebar a {
   text-align: left;
   margin-top: 10px;
+  margin-left: 40px;
   transition: 0.5s;
   font-size: 25px;
   display: block;
