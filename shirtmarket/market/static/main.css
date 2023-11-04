@@ -63,6 +63,11 @@ ul {
   margin: 20px 20px;
 }
 
+.contact {
+  width: 50%;
+  margin: auto;
+}
+
 .flex-container {
   display: flex;
   flex-direction: row;  
@@ -108,7 +113,7 @@ ul {
 }
 
 .landing-head {
-  width: 100vw;
+  width: calc(100% + 40px);
   height: 500px;
   background: var(--landing-header-bg-color);
   margin: -24px 0 30px -20px;
