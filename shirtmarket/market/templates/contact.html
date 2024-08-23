@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="contact">
+
+	<h1>need help?</h1>
+    {% if user.is_authenticated %}
+        <div class="form-section">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Contact Us</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    {% else %}
+        <a class="btn btn-outline-primary btn-sm mb-3" href="{% url 'login' %}">log in to access contact form</a>
+    {% endif %}
+    <div class="socials">
+        <h2>connect with us</h2>
+        <a href="#">
+            <img src="/media/ig.png">
+        </a>
+        <a href="#">
+            <img src="/media/x.png">
+        </a>
+    </div>
+    <br>
+    <div class="faq">
+        <h2>frequently asked questions</h2>
+        <h4>where do your products ship from?</h4>
+        <p>we’re based in California, USA.</p>
+        <h4>where do your products ship to?</h4>
+        <p>currently we only ship to the USA</p>
+        <h4>what is your return/exchange policy?</h4>
+        <p>***</p>
+        <h4>can i cancel my order?</h4>
+        <p>
+            for modifications to orders such as cancellations and address changes, please contact us using
+            the contact form as soon as possible.
+            <br> however, any changes requested after your order has
+            been placed cannot be guaranteed.
+        </p>
+        <h4>does limited time apparel come back?</h4>
+        <p>
+            limited apparel will not return once sold out or past the purchase period.
+            <br>
+            we welcome you to follow us on instagram and x for updates on upcoming seasons and collaborations.
+        </p>
+        <h4>how can i collaborate with Yukai?</h4>
+        <p>if you are a content creator looking to collaborate with us, you send us a message with the contact form!</p>
+        <h4>my question wasn't listed here!</h4>
+        <p>for any other questions, please send us a message using the contact form above!</p>
+    </div>
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load mathfilters %}
+{% block content %}
+	<article class="media detail-container">
+        <img class="detail-img" src="{{ item.image.url }}">
+        <div class="detail-parts">
+            <div class="detail-section">
+                <div class="detail-titlebox">
+                    <h2 class="detail-title">{{ item.name }}</h2>
+                    {% if user.is_superuser %}
+                        <div>
+                            <a class="btn btn-secondary btn-sm" href="{% url 'item-update' item.id %}">Update</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'item-delete' item.id %}">Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="detail-cat">
+                    <a class="detail-muted" href="{% url 'category-list' item.category.id %}">{{ item.category.name }}</a>
+                </div>
+                <div class="detail-favorite">
+                    <p class="detail-content">{{ item.favorites.count }} ♡</p>
+                    {% if user in item.favorites.all %}
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'favorite' item.id %}">♡ Favorited!</a>
+                    {% else %}
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'favorite' item.id %}">♡ Favorite this Item!</a>
+                    {% endif %}
+                </div>
+                <p class="detail-content">{{ item.description }}</p>
+            </div>
+            <div class="detail-endbox">
+                <p class="detail-end detail-content">${{ item.price|div:100 }}</p>
+                {% if item.sales_limit != -1 %}
+                    <p class="detail-end">Items Remaining: {{ item.sales_limit|sub:item.sold }}</p>
+                {% endif %}
+                {% if item.expire_date %}
+                    <p class="detail-end">Time Limit: {{ item.expire_date }}</p>
+                {% endif %}
+                {% if expired %}
+                    <a class="detail-end btn btn-danger btn-sm">Purchase Period Over</a>
+                {% elif item.sales_limit == -1 %}
+                    <a class="detail-end btn btn-success btn-sm" id="purchase">Buy Now!</a>
+                {% elif item.sales_limit|sub:item.sold > 0 %}
+                    <a class="detail-end btn btn-success btn-sm" id="purchase">Buy Now!</a>
+                {% else %}
+                    <a class="detail-end btn btn-danger btn-sm">Sold Out</a>
+                {% endif %}
+                <small class="detail-end text-muted">Posted - {{ item.date_posted|date:"F d, Y" }}</small>
+            </div>
+        </div>
+	</article>
+{% endblock content %}

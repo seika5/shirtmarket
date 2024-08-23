@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+    <script>
+    function statusChange(id)
+    {
+        $.ajax({
+            url: "/status-change/",
+            type: "POST",
+            data: {'id':id},
+            success: function() {
+                window.location.reload();
+            },
+        });
+    }
+    </script>
+
+    <p class="status">
+        <strong>
+            {{ orders_unff }}
+        </strong> orders unfulfilled |
+        <strong>
+            {{ orders_enr }}
+        </strong> orders en route |
+        <strong>
+            {{ orders_ff }}
+        </strong> orders fulfilled
+    </p>
+
+    {% for order in orders %}
+        <div class="order-list">
+            <h2><a class="article-title">{{ order.item }}</a></h2>
+            <p class="article-content">{{ order.address }}</p>
+            <div class="status">
+                {% if order.status == 0 %}
+                    <p class="unff">status: unfulfilled</p>
+                {% elif order.status == 1 %}
+                    <p>status: en route</p>
+                {% endif %}
+
+                {% if order.status == 0 %}
+                    <p class="btn btn-success" onclick="statusChange({{ order.id }});">order sent</p>
+                {% elif order.status == 1 %}
+                    <p class="btn btn-info" onclick="statusChange({{ order.id }});">order arrived</p>
+                {% endif %}
+            </div>
+            <p class="text-muted">{{ order.date_ordered|date:"F d, Y - H:i:s" }}</p>
+        </div>
+    {% endfor %}
+
+    {% if not orders %}
+        <p class="status">all orders fulfilled</p>
+    {% endif %}
+
+    {% for fforder in fforders %}
+        <div class="order-list">
+            <h2><a class="article-title">{{ fforder.item }}</a></h2>
+            <p class="article-content">{{ fforder.address }}</p>
+            <div class="status">
+                <p class="ff">status: fulfilled</p>
+            </div>
+            <p class="text-muted">{{ fforder.date_ordered|date:"F d, Y - H:i:s" }}</p>
+        </div>
+    {% endfor %}
+
+	{% if is_paginated %}
+		<div class="paginated">
+			{% if page_obj.has_previous %}
+				<a class="btn btn-outline-info page" href="?page=1">First</a>
+				<a class="btn btn-outline-info page" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+			{% endif %}
+
+			{% for num in page_obj.paginator.page_range %}
+				{% if page_obj.number == num %}
+					<a class="btn btn-info page" href="?page={{ num }}">{{ num }}</a>
+				{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+					<a class="btn btn-outline-info page" href="?page={{ num }}">{{ num }}</a>
+				{% endif %}
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+				<a class="btn btn-outline-info page" href="?page={{ page_obj.next_page_number }}">Next</a>
+				<a class="btn btn-outline-info page" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+			{% endif %}
+		</div>
+	{% endif %}
+{% endblock content %}

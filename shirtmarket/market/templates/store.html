@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load mathfilters %}
+{% block content %}
+    <div class="row">
+        <div class="col-2 p-0"></div>
+        <div class="col-2 p-0">
+			<div class="sidebar">
+                {% url 'market-home' as url %}
+                {% if request.path == url %}
+                    <a class="current" href="{% url 'market-home' %}">All Collections</a>
+                {% else %}
+                    <a class="cat-list" href="{% url 'market-home' %}">All Collections</a>
+                {% endif %}
+                {% for category in categories %}
+                    {% url 'category-list' category.id as url %}
+                    {% if request.path == url %}
+				        <a class="current" href="{% url 'category-list' category.id %}">{{ category.name }}</a>
+                    {% else %}
+				        <a class="cat-list" href="{% url 'category-list' category.id %}">{{ category.name }}</a>
+                    {% endif %}
+                {% endfor %}
+			</div>
+		</div>
+        <div class="col-md-6 p-0">
+			<div class="flex-container">
+				{% for item in page_obj %}
+					<div class="content-section">
+	  					<div class="media-body">
+                            <a href="{% url 'item-detail' item.id %}">
+                                <img class="article-img" src="{{ item.image.url }}">
+                            </a>
+                            <h2><a class="article-title" href="{% url 'item-detail' item.id %}">{{ item.name }}</a></h2>
+	  					</div>
+                        <div class="article-end">
+                            <div class="article-info flex-container">
+                                <p class="article-content">{{ item.favorites.count }} ♡</p>
+    		                    <p class="article-content">${{ item.price|div:100 }}</p>
+                            </div>
+                        </div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	{% if is_paginated %}
+		<div class="paginated">
+			{% if page_obj.has_previous %}
+				<a class="btn btn-outline-info page" href="?page=1">First</a>
+				<a class="btn btn-outline-info page" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+			{% endif %}
+
+			{% for num in page_obj.paginator.page_range %}
+				{% if page_obj.number == num %}
+					<a class="btn btn-info page" href="?page={{ num }}">{{ num }}</a>
+				{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+					<a class="btn btn-outline-info page" href="?page={{ num }}">{{ num }}</a>
+				{% endif %}
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+				<a class="btn btn-outline-info page" href="?page={{ page_obj.next_page_number }}">Next</a>
+				<a class="btn btn-outline-info page" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+			{% endif %}		
+		</div>
+	{% endif %}
+{% endblock content %}

@@ -1,0 +1,13 @@
+
+node_modules/.DS_Store
+.DS_Store
+/node_modules
+shirtmarket/db.sqlite3
+/shirtmarket/market/__pycache__
+shirtmarket/market/__init__.py
+shirtmarket/market/migrations/__init__.py
+*.pyc
+shirtmarket/shirtmarket/.env
+shirtmarket/shirtmarket/__init__.py
+shirtmarket/users/__init__.py
+shirtmarket/users/migrations/__init__.py
